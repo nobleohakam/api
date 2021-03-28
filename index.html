@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>API Fun</title>
+        <script>
+    		function getCat() {
+    			request = new XMLHttpRequest();
+    			console.log("1 - request object created");
+
+    		request.open("GET", "https://cat-fact.herokuapp.com/facts", true)
+
+    			console.log("2 - opened request file");
+    			request.onreadystatechange = function() {
+
+    				if (request.readyState == 4 && request.status == 200) {
+
+    					// Step 5: wait for done + success
+    					console.log("5 - response received");
+    					result = request.responseText;
+    					//alert(result);
+                        facts = "";
+                        fox = JSON.parse(result);
+                        fox.forEach(function(fox){
+                        facts += "</br>" + fox.text + "</br>";
+
+                        })
+    					document.getElementById("data").innerHTML = facts;
+                        console.log(fox);
+
+    				}
+    				else if (request.readyState == 4 && request.status != 200) {
+
+    					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+    				}
+
+    				else if (request.readyState == 3) {
+
+    					document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+    				}
+
+    			}
+    		// Step 4: fire off the HTTP request
+    			request.send();
+    			console.log("4 - Request sent");
+    		}
+
+            getCat();
+    	</script>
+    </head>
+    <body>
+
+        <div id="data"></div>
+
+
+    <p>This API returns random facts about cats</p>
+    <p>This is the website where I found it: <a href="https://alexwohlbruck.github.io/cat-facts/">Cat Facts</a></p>
+    <p>There are two options in this API: /facts returns facts and /users gets user data</p>
+    <p>This is great if you owned a cat and wanted to know more about it & if learning about cats is a hobby of yours </p>
+
+
+
+
+    </body>
+</html>
